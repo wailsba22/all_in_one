@@ -83,7 +83,17 @@ const toolIcons = {
     'timezone-converter': 'https://cdn-icons-png.flaticon.com/128/3135/3135706.png',
     'percentage-calculator': 'https://cdn-icons-png.flaticon.com/128/3179/3179158.png',
     'bmi-calculator': 'https://cdn-icons-png.flaticon.com/128/2920/2920230.png',
-    'age-calculator': 'https://cdn-icons-png.flaticon.com/128/3652/3652191.png'
+    'age-calculator': 'https://cdn-icons-png.flaticon.com/128/3652/3652191.png',
+    
+    // Document/Office Tools
+    'pdf-merger': 'https://cdn-icons-png.flaticon.com/128/337/337946.png',
+    'pdf-splitter': 'https://cdn-icons-png.flaticon.com/128/3342/3342197.png',
+    'pdf-compressor': 'https://cdn-icons-png.flaticon.com/128/2920/2920277.png',
+    'word-to-pdf': 'https://cdn-icons-png.flaticon.com/128/281/281760.png',
+    'excel-to-pdf': 'https://cdn-icons-png.flaticon.com/128/888/888850.png',
+    'powerpoint-to-pdf': 'https://cdn-icons-png.flaticon.com/128/888/888874.png',
+    'excel-to-csv': 'https://cdn-icons-png.flaticon.com/128/6133/6133884.png',
+    'word-counter-doc': 'https://cdn-icons-png.flaticon.com/128/3179/3179068.png'
 };
 
 // Render tools in navigation dropdowns
@@ -93,7 +103,8 @@ function renderNavDropdowns() {
         { id: 'text', tools: toolsData.text },
         { id: 'dev', tools: toolsData.dev },
         { id: 'unit', tools: toolsData.units },
-        { id: 'utility', tools: toolsData.utilities }
+        { id: 'utility', tools: toolsData.utilities },
+        { id: 'document', tools: toolsData.document }
     ];
     
     categories.forEach(category => {

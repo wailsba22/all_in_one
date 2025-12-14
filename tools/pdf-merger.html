@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Unix Timestamp Converter - ConvertHub</title>
-    <meta name="description" content="Convert between date and Unix timestamp">
+    <title>PDF Merger - ConvertHub</title>
+    <meta name="description" content="Combine multiple PDF files into one document">
     
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="../favicon.svg">
@@ -16,12 +16,12 @@
     
     <!-- Open Graph / Social Media -->
     <meta property="og:type" content="website">
-    <meta property="og:title" content="Unix Timestamp Converter - ConvertHub">
-    <meta property="og:description" content="Convert between date and Unix timestamp">
+    <meta property="og:title" content="PDF Merger - ConvertHub">
+    <meta property="og:description" content="Combine multiple PDF files into one document">
     <meta property="og:image" content="../assets/icons/og-image.png">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Unix Timestamp Converter - ConvertHub">
-    <meta name="twitter:description" content="Convert between date and Unix timestamp">
+    <meta name="twitter:title" content="PDF Merger - ConvertHub">
+    <meta name="twitter:description" content="Combine multiple PDF files into one document">
     
     <link rel="stylesheet" href="../assets/css/universal-tool.css">
 </head>
@@ -43,28 +43,21 @@
     <!-- Main Content -->
     <main class="main-content">
         <div class="tool-header">
-            <h1>Unix Timestamp Converter</h1>
-            <p>Convert between date and Unix timestamp</p>
+            <h1>PDF Merger</h1>
+            <p>Combine multiple PDF files into one document</p>
         </div>
 
         <div class="io-section">
 
                 <div class="content-box">
-                    <div class="io-section">
-                        <div class="input-group">
-                            <label class="input-label">Unix Timestamp</label>
-                            <input type="number" id="timestamp" 
-                                
-                                value="1765751370"
-                                
-                                >
-                        </div>
+                    <div class="content-box-header">
+                        <span class="content-box-title">Upload Image</span>
                     </div>
+                    <div id="uploadZone"></div>
                 </div>
 
                 <div class="btn-group">
-                    <button class="btn btn-primary" onclick="toDate()">To Date</button>
-                    <button class="btn btn-secondary" onclick="setCurrent()">Current Time</button>
+                    <button class="btn btn-primary" onclick="mergePDFs()">📄 Merge PDFs</button>
                 </div>
 
                 <div class="content-box">
@@ -79,21 +72,39 @@
     <script src="../assets/js/universal-tool.js"></script>
     <script>
 
-function toDate() {
-    const ts = parseInt(document.getElementById('timestamp').value);
-    const date = new Date(ts * 1000);
-    document.getElementById('output').innerHTML = `
-        <div style="text-align: center;">
-            <div style="font-size: 1.5rem; font-weight: 600;">${date.toLocaleString()}</div>
-            <div style="color: var(--text-secondary); margin-top: 0.5rem;">${date.toISOString()}</div>
-        </div>
-    `;
+const pdfFiles = [];
+
+UniversalUpload.init({
+    dropZoneId: 'uploadZone',
+    onFilesSelected: (files) => {
+        pdfFiles.length = 0;
+        pdfFiles.push(...Array.from(files).filter(f => f.type === 'application/pdf'));
+        if (pdfFiles.length === 0) {
+            UniversalToast.error('Please upload PDF files only');
+            return;
+        }
+        document.getElementById('dropZone').innerHTML = `
+            <div style="text-align: center; padding: 2rem;">
+                <div style="font-size: 3rem; margin-bottom: 1rem;">📄</div>
+                <div style="font-size: 1.125rem; font-weight: 600; color: #1f2937; margin-bottom: 0.5rem;">
+                    ${pdfFiles.length} PDF file(s) selected
+                </div>
+                <div style="font-size: 0.875rem; color: #6b7280;">
+                    Click "Merge PDFs" to combine them
+                </div>
+            </div>
+        `;
+        UniversalToast.success(`${pdfFiles.length} PDF files loaded`);
+    }
+});
+
+function mergePDFs() {
+    if (pdfFiles.length < 2) {
+        UniversalToast.error('Please upload at least 2 PDF files');
+        return;
+    }
+    UniversalToast.info('PDF merging requires backend processing. Feature coming soon!');
 }
-function setCurrent() {
-    document.getElementById('timestamp').value = Math.floor(Date.now() / 1000);
-    toDate();
-}
-toDate();
 
     </script>
 </body>

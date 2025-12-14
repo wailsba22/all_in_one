@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PowerPoint to PDF Converter - ConvertHub</title>
+    <meta name="description" content="Convert PowerPoint presentations (.pptx, .ppt) to PDF format">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+    <link rel="icon" type="image/png" sizes="32x32" href="../assets/icons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../assets/icons/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="../assets/icons/apple-touch-icon.png">
+    <link rel="manifest" href="../site.webmanifest">
+    <meta name="theme-color" content="#6366f1">
+    
+    <!-- Open Graph / Social Media -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="PowerPoint to PDF Converter - ConvertHub">
+    <meta property="og:description" content="Convert PowerPoint presentations (.pptx, .ppt) to PDF format">
+    <meta property="og:image" content="../assets/icons/og-image.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="PowerPoint to PDF Converter - ConvertHub">
+    <meta name="twitter:description" content="Convert PowerPoint presentations (.pptx, .ppt) to PDF format">
+    
+    <link rel="stylesheet" href="../assets/css/universal-tool.css">
+</head>
+<body>
+    <!-- Universal Header -->
+    <header class="universal-header">
+        <div class="header-content">
+            <a href="../index.html" class="logo">
+                <div class="logo-icon">C</div>
+                <span>ConvertHub</span>
+            </a>
+            <nav class="header-nav">
+                <a href="../index.html" class="nav-link">Home</a>
+                <a href="../index.html#tools" class="nav-link">All Tools</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="tool-header">
+            <h1>PowerPoint to PDF Converter</h1>
+            <p>Convert PowerPoint presentations (.pptx, .ppt) to PDF format</p>
+        </div>
+
+        <div class="io-section">
+
+                <div class="content-box">
+                    <div class="content-box-header">
+                        <span class="content-box-title">Upload Image</span>
+                    </div>
+                    <div id="uploadZone"></div>
+                </div>
+
+                <div class="btn-group">
+                    <button class="btn btn-primary" onclick="convertPPTToPDF()">🎬 Convert to PDF</button>
+                </div>
+
+                <div class="content-box">
+                    <div class="content-box-header">
+                        <span class="content-box-title">Results</span>
+                    </div>
+                    <div id="output"></div>
+                </div>
+        </div>
+    </main>
+
+    <script src="../assets/js/universal-tool.js"></script>
+    <script>
+
+let pptFile = null;
+
+UniversalUpload.init({
+    dropZoneId: 'uploadZone',
+    onFilesSelected: (files) => {
+        pptFile = files[0];
+        const validTypes = ['application/vnd.ms-powerpoint', 'application/vnd.openxmlformats-officedocument.presentationml.presentation'];
+        if (!validTypes.includes(pptFile.type)) {
+            UniversalToast.error('Please upload a PowerPoint file (.ppt or .pptx)');
+            return;
+        }
+        document.getElementById('dropZone').innerHTML = `
+            <div style="text-align: center; padding: 2rem;">
+                <div style="font-size: 3rem; margin-bottom: 1rem;">🎬</div>
+                <div style="font-size: 1.125rem; font-weight: 600; color: #1f2937; margin-bottom: 0.5rem;">
+                    ${pptFile.name}
+                </div>
+                <div style="font-size: 0.875rem; color: #6b7280;">
+                    ${(pptFile.size / 1024).toFixed(2)} KB
+                </div>
+            </div>
+        `;
+        UniversalToast.success('PowerPoint file loaded');
+    }
+});
+
+function convertPPTToPDF() {
+    if (!pptFile) {
+        UniversalToast.error('Please upload a PowerPoint file first');
+        return;
+    }
+    UniversalToast.info('Presentation conversion requires backend processing. Feature coming soon!');
+}
+
+    </script>
+</body>
+</html>

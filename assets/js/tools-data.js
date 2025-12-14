@@ -85,5 +85,16 @@ const toolsData = {
         { id: 'percentage-calculator', name: 'Percentage Calculator', icon: 'fa-percent', description: 'Calculate percentages' },
         { id: 'bmi-calculator', name: 'BMI Calculator', icon: 'fa-heartbeat', description: 'Calculate Body Mass Index' },
         { id: 'age-calculator', name: 'Age Calculator', icon: 'fa-birthday-cake', description: 'Calculate age from birth date' }
+    ],
+
+    document: [
+        { id: 'pdf-merger', name: 'PDF Merger', icon: 'fa-file-pdf', description: 'Combine multiple PDF files into one' },
+        { id: 'pdf-splitter', name: 'PDF Splitter', icon: 'fa-scissors', description: 'Split PDF into separate pages' },
+        { id: 'pdf-compressor', name: 'PDF Compressor', icon: 'fa-compress', description: 'Reduce PDF file size' },
+        { id: 'word-to-pdf', name: 'Word to PDF', icon: 'fa-file-word', description: 'Convert Word documents to PDF' },
+        { id: 'excel-to-pdf', name: 'Excel to PDF', icon: 'fa-file-excel', description: 'Convert Excel spreadsheets to PDF' },
+        { id: 'powerpoint-to-pdf', name: 'PowerPoint to PDF', icon: 'fa-file-powerpoint', description: 'Convert presentations to PDF' },
+        { id: 'excel-to-csv', name: 'Excel to CSV', icon: 'fa-table', description: 'Convert Excel to CSV format' },
+        { id: 'word-counter-doc', name: 'Document Word Counter', icon: 'fa-file-alt', description: 'Count words in documents' }
     ]
 };

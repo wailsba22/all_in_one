@@ -2110,6 +2110,355 @@ function downloadCropped() {
     });
 }
 `
+    },
+
+    // PDF TOOLS
+    'pdf-merger': {
+        title: 'PDF Merger',
+        description: 'Combine multiple PDF files into one document',
+        fileUpload: { accept: '.pdf', multiple: true, id: 'pdfFiles' },
+        buttons: [
+            { text: '📄 Merge PDFs', action: 'mergePDFs()', primary: true }
+        ],
+        outputType: 'custom',
+        script: `
+const pdfFiles = [];
+
+UniversalUpload.init({
+    dropZoneId: 'uploadZone',
+    onFilesSelected: (files) => {
+        pdfFiles.length = 0;
+        pdfFiles.push(...Array.from(files).filter(f => f.type === 'application/pdf'));
+        if (pdfFiles.length === 0) {
+            UniversalToast.error('Please upload PDF files only');
+            return;
+        }
+        document.getElementById('dropZone').innerHTML = \`
+            <div style="text-align: center; padding: 2rem;">
+                <div style="font-size: 3rem; margin-bottom: 1rem;">📄</div>
+                <div style="font-size: 1.125rem; font-weight: 600; color: #1f2937; margin-bottom: 0.5rem;">
+                    \${pdfFiles.length} PDF file(s) selected
+                </div>
+                <div style="font-size: 0.875rem; color: #6b7280;">
+                    Click "Merge PDFs" to combine them
+                </div>
+            </div>
+        \`;
+        UniversalToast.success(\`\${pdfFiles.length} PDF files loaded\`);
+    }
+});
+
+function mergePDFs() {
+    if (pdfFiles.length < 2) {
+        UniversalToast.error('Please upload at least 2 PDF files');
+        return;
+    }
+    UniversalToast.info('PDF merging requires backend processing. Feature coming soon!');
+}
+`
+    },
+
+    'pdf-splitter': {
+        title: 'PDF Splitter',
+        description: 'Split PDF into separate pages or extract specific pages',
+        fileUpload: { accept: '.pdf', id: 'pdfFile' },
+        buttons: [
+            { text: '📑 Split PDF', action: 'splitPDF()', primary: true }
+        ],
+        outputType: 'custom',
+        script: `
+let pdfFile = null;
+
+UniversalUpload.init({
+    dropZoneId: 'uploadZone',
+    onFilesSelected: (files) => {
+        pdfFile = files[0];
+        if (pdfFile.type !== 'application/pdf') {
+            UniversalToast.error('Please upload a PDF file');
+            return;
+        }
+        document.getElementById('dropZone').innerHTML = \`
+            <div style="text-align: center; padding: 2rem;">
+                <div style="font-size: 3rem; margin-bottom: 1rem;">📄</div>
+                <div style="font-size: 1.125rem; font-weight: 600; color: #1f2937; margin-bottom: 0.5rem;">
+                    \${pdfFile.name}
+                </div>
+                <div style="font-size: 0.875rem; color: #6b7280;">
+                    \${(pdfFile.size / 1024 / 1024).toFixed(2)} MB
+                </div>
+            </div>
+        \`;
+        UniversalToast.success('PDF loaded successfully');
+    }
+});
+
+function splitPDF() {
+    if (!pdfFile) {
+        UniversalToast.error('Please upload a PDF file first');
+        return;
+    }
+    UniversalToast.info('PDF splitting requires backend processing. Feature coming soon!');
+}
+`
+    },
+
+    'pdf-compressor': {
+        title: 'PDF Compressor',
+        description: 'Reduce PDF file size while maintaining quality',
+        fileUpload: { accept: '.pdf', id: 'pdfFile' },
+        buttons: [
+            { text: '🗜️ Compress PDF', action: 'compressPDF()', primary: true }
+        ],
+        outputType: 'custom',
+        script: `
+let pdfFile = null;
+
+UniversalUpload.init({
+    dropZoneId: 'uploadZone',
+    onFilesSelected: (files) => {
+        pdfFile = files[0];
+        if (pdfFile.type !== 'application/pdf') {
+            UniversalToast.error('Please upload a PDF file');
+            return;
+        }
+        const sizeMB = (pdfFile.size / 1024 / 1024).toFixed(2);
+        document.getElementById('dropZone').innerHTML = \`
+            <div style="text-align: center; padding: 2rem;">
+                <div style="font-size: 3rem; margin-bottom: 1rem;">📄</div>
+                <div style="font-size: 1.125rem; font-weight: 600; color: #1f2937; margin-bottom: 0.5rem;">
+                    \${pdfFile.name}
+                </div>
+                <div style="font-size: 0.875rem; color: #6b7280;">
+                    Original size: \${sizeMB} MB
+                </div>
+            </div>
+        \`;
+        UniversalToast.success('PDF loaded successfully');
+    }
+});
+
+function compressPDF() {
+    if (!pdfFile) {
+        UniversalToast.error('Please upload a PDF file first');
+        return;
+    }
+    UniversalToast.info('PDF compression requires backend processing. Feature coming soon!');
+}
+`
+    },
+
+    'word-to-pdf': {
+        title: 'Word to PDF Converter',
+        description: 'Convert Word documents (.docx, .doc) to PDF format',
+        fileUpload: { accept: '.doc,.docx', id: 'wordFile' },
+        buttons: [
+            { text: '📄 Convert to PDF', action: 'convertToPDF()', primary: true }
+        ],
+        outputType: 'custom',
+        script: `
+let wordFile = null;
+
+UniversalUpload.init({
+    dropZoneId: 'uploadZone',
+    onFilesSelected: (files) => {
+        wordFile = files[0];
+        const validTypes = ['application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
+        if (!validTypes.includes(wordFile.type)) {
+            UniversalToast.error('Please upload a Word document (.doc or .docx)');
+            return;
+        }
+        document.getElementById('dropZone').innerHTML = \`
+            <div style="text-align: center; padding: 2rem;">
+                <div style="font-size: 3rem; margin-bottom: 1rem;">📝</div>
+                <div style="font-size: 1.125rem; font-weight: 600; color: #1f2937; margin-bottom: 0.5rem;">
+                    \${wordFile.name}
+                </div>
+                <div style="font-size: 0.875rem; color: #6b7280;">
+                    \${(wordFile.size / 1024).toFixed(2)} KB
+                </div>
+            </div>
+        \`;
+        UniversalToast.success('Word document loaded');
+    }
+});
+
+function convertToPDF() {
+    if (!wordFile) {
+        UniversalToast.error('Please upload a Word document first');
+        return;
+    }
+    UniversalToast.info('Document conversion requires backend processing. Feature coming soon!');
+}
+`
+    },
+
+    'excel-to-pdf': {
+        title: 'Excel to PDF Converter',
+        description: 'Convert Excel spreadsheets (.xlsx, .xls) to PDF format',
+        fileUpload: { accept: '.xls,.xlsx', id: 'excelFile' },
+        buttons: [
+            { text: '📊 Convert to PDF', action: 'convertExcelToPDF()', primary: true }
+        ],
+        outputType: 'custom',
+        script: `
+let excelFile = null;
+
+UniversalUpload.init({
+    dropZoneId: 'uploadZone',
+    onFilesSelected: (files) => {
+        excelFile = files[0];
+        const validTypes = ['application/vnd.ms-excel', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'];
+        if (!validTypes.includes(excelFile.type)) {
+            UniversalToast.error('Please upload an Excel file (.xls or .xlsx)');
+            return;
+        }
+        document.getElementById('dropZone').innerHTML = \`
+            <div style="text-align: center; padding: 2rem;">
+                <div style="font-size: 3rem; margin-bottom: 1rem;">📊</div>
+                <div style="font-size: 1.125rem; font-weight: 600; color: #1f2937; margin-bottom: 0.5rem;">
+                    \${excelFile.name}
+                </div>
+                <div style="font-size: 0.875rem; color: #6b7280;">
+                    \${(excelFile.size / 1024).toFixed(2)} KB
+                </div>
+            </div>
+        \`;
+        UniversalToast.success('Excel file loaded');
+    }
+});
+
+function convertExcelToPDF() {
+    if (!excelFile) {
+        UniversalToast.error('Please upload an Excel file first');
+        return;
+    }
+    UniversalToast.info('Spreadsheet conversion requires backend processing. Feature coming soon!');
+}
+`
+    },
+
+    'powerpoint-to-pdf': {
+        title: 'PowerPoint to PDF Converter',
+        description: 'Convert PowerPoint presentations (.pptx, .ppt) to PDF format',
+        fileUpload: { accept: '.ppt,.pptx', id: 'pptFile' },
+        buttons: [
+            { text: '🎬 Convert to PDF', action: 'convertPPTToPDF()', primary: true }
+        ],
+        outputType: 'custom',
+        script: `
+let pptFile = null;
+
+UniversalUpload.init({
+    dropZoneId: 'uploadZone',
+    onFilesSelected: (files) => {
+        pptFile = files[0];
+        const validTypes = ['application/vnd.ms-powerpoint', 'application/vnd.openxmlformats-officedocument.presentationml.presentation'];
+        if (!validTypes.includes(pptFile.type)) {
+            UniversalToast.error('Please upload a PowerPoint file (.ppt or .pptx)');
+            return;
+        }
+        document.getElementById('dropZone').innerHTML = \`
+            <div style="text-align: center; padding: 2rem;">
+                <div style="font-size: 3rem; margin-bottom: 1rem;">🎬</div>
+                <div style="font-size: 1.125rem; font-weight: 600; color: #1f2937; margin-bottom: 0.5rem;">
+                    \${pptFile.name}
+                </div>
+                <div style="font-size: 0.875rem; color: #6b7280;">
+                    \${(pptFile.size / 1024).toFixed(2)} KB
+                </div>
+            </div>
+        \`;
+        UniversalToast.success('PowerPoint file loaded');
+    }
+});
+
+function convertPPTToPDF() {
+    if (!pptFile) {
+        UniversalToast.error('Please upload a PowerPoint file first');
+        return;
+    }
+    UniversalToast.info('Presentation conversion requires backend processing. Feature coming soon!');
+}
+`
+    },
+
+    'excel-to-csv': {
+        title: 'Excel to CSV Converter',
+        description: 'Convert Excel spreadsheets to CSV format',
+        fileUpload: { accept: '.xls,.xlsx', id: 'excelFile' },
+        buttons: [
+            { text: '📊 Convert to CSV', action: 'convertToCSV()', primary: true }
+        ],
+        outputType: 'custom',
+        script: `
+let excelFile = null;
+
+UniversalUpload.init({
+    dropZoneId: 'uploadZone',
+    onFilesSelected: (files) => {
+        excelFile = files[0];
+        const validTypes = ['application/vnd.ms-excel', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'];
+        if (!validTypes.includes(excelFile.type)) {
+            UniversalToast.error('Please upload an Excel file');
+            return;
+        }
+        document.getElementById('dropZone').innerHTML = \`
+            <div style="text-align: center; padding: 2rem;">
+                <div style="font-size: 3rem; margin-bottom: 1rem;">📊</div>
+                <div style="font-size: 1.125rem; font-weight: 600; color: #1f2937;">
+                    \${excelFile.name}
+                </div>
+            </div>
+        \`;
+        UniversalToast.success('Excel file loaded');
+    }
+});
+
+function convertToCSV() {
+    if (!excelFile) {
+        UniversalToast.error('Please upload an Excel file first');
+        return;
+    }
+    UniversalToast.info('Excel to CSV conversion requires backend processing. Feature coming soon!');
+}
+`
+    },
+
+    'word-counter-doc': {
+        title: 'Document Word Counter',
+        description: 'Count words, characters, and paragraphs in Word/PDF documents',
+        fileUpload: { accept: '.doc,.docx,.pdf,.txt', id: 'docFile' },
+        buttons: [
+            { text: '📊 Analyze Document', action: 'analyzeDocument()', primary: true }
+        ],
+        outputType: 'custom',
+        script: `
+let docFile = null;
+
+UniversalUpload.init({
+    dropZoneId: 'uploadZone',
+    onFilesSelected: (files) => {
+        docFile = files[0];
+        document.getElementById('dropZone').innerHTML = \`
+            <div style="text-align: center; padding: 2rem;">
+                <div style="font-size: 3rem; margin-bottom: 1rem;">📄</div>
+                <div style="font-size: 1.125rem; font-weight: 600; color: #1f2937;">
+                    \${docFile.name}
+                </div>
+            </div>
+        \`;
+        UniversalToast.success('Document loaded');
+    }
+});
+
+function analyzeDocument() {
+    if (!docFile) {
+        UniversalToast.error('Please upload a document first');
+        return;
+    }
+    UniversalToast.info('Document analysis requires backend processing. Feature coming soon!');
+}
+`
     }
 };
 
