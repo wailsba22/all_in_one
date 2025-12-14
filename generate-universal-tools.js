@@ -2225,6 +2225,25 @@ function generateToolHTML(toolId, config) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>${config.title} - ConvertHub</title>
+    <meta name="description" content="${config.description}">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+    <link rel="icon" type="image/png" sizes="32x32" href="../assets/icons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../assets/icons/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="../assets/icons/apple-touch-icon.png">
+    <link rel="manifest" href="../site.webmanifest">
+    <meta name="theme-color" content="#6366f1">
+    
+    <!-- Open Graph / Social Media -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="${config.title} - ConvertHub">
+    <meta property="og:description" content="${config.description}">
+    <meta property="og:image" content="../assets/icons/og-image.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="${config.title} - ConvertHub">
+    <meta name="twitter:description" content="${config.description}">
+    
     <link rel="stylesheet" href="../assets/css/universal-tool.css">
 </head>
 <body>
