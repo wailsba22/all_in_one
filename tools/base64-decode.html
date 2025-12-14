@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Base64 Decoder - ConvertHub</title>
+    <link rel="stylesheet" href="../assets/css/universal-tool.css">
+</head>
+<body>
+    <!-- Universal Header -->
+    <header class="universal-header">
+        <div class="header-content">
+            <a href="../index.html" class="logo">
+                <div class="logo-icon">C</div>
+                <span>ConvertHub</span>
+            </a>
+            <nav class="header-nav">
+                <a href="../index.html" class="nav-link">Home</a>
+                <a href="../index.html#tools" class="nav-link">All Tools</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="tool-header">
+            <h1>Base64 Decoder</h1>
+            <p>Decode Base64 to text format</p>
+        </div>
+
+        <div class="io-section">
+
+                <div class="content-box">
+                    <div class="content-box-header">
+                        <span class="content-box-title">Base64 to Decode</span>
+                    </div>
+                    <textarea id="input" placeholder="Enter Base64 string..."></textarea>
+                </div>
+
+                <div class="btn-group">
+                    <button class="btn btn-primary" onclick="decode()">Decode</button>
+                    <button class="btn btn-secondary" onclick="copyFromElement("output")">Copy Result</button>
+                </div>
+
+                <div class="content-box">
+                    <div class="content-box-header">
+                        <span class="content-box-title">Decoded Text</span>
+                    </div>
+                    <textarea id="output" readonly></textarea>
+                </div>
+        </div>
+    </main>
+
+    <script src="../assets/js/universal-tool.js"></script>
+    <script>
+
+function decode() {
+    const text = document.getElementById('input').value;
+    const output = document.getElementById('output');
+    
+    if (!text) {
+        output.value = '';
+        return;
+    }
+    
+    try {
+        const decoded = decodeURIComponent(escape(atob(text)));
+        output.value = decoded;
+    } catch (e) {
+        UniversalToast.error('Invalid Base64 string');
+    }
+}
+
+document.getElementById('input').addEventListener('input', decode);
+
+    </script>
+</body>
+</html>

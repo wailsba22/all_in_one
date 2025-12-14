@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Markdown Preview - ConvertHub</title>
+    <link rel="stylesheet" href="../assets/css/universal-tool.css">
+</head>
+<body>
+    <!-- Universal Header -->
+    <header class="universal-header">
+        <div class="header-content">
+            <a href="../index.html" class="logo">
+                <div class="logo-icon">C</div>
+                <span>ConvertHub</span>
+            </a>
+            <nav class="header-nav">
+                <a href="../index.html" class="nav-link">Home</a>
+                <a href="../index.html#tools" class="nav-link">All Tools</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="tool-header">
+            <h1>Markdown Preview</h1>
+            <p>Preview Markdown as HTML</p>
+        </div>
+
+        <div class="io-section">
+
+                <div class="content-box">
+                    <div class="content-box-header">
+                        <span class="content-box-title">Markdown Input</span>
+                    </div>
+                    <textarea id="input" placeholder="# Hello\n\nWrite **markdown** here..."></textarea>
+                </div>
+
+                <div class="btn-group">
+                    <button class="btn btn-primary" onclick="previewMarkdown()">Preview</button>
+                </div>
+
+                <div class="content-box">
+                    <div class="content-box-header">
+                        <span class="content-box-title">Results</span>
+                    </div>
+                    <div id="output"></div>
+                </div>
+        </div>
+    </main>
+
+    <script src="../assets/js/universal-tool.js"></script>
+    <script>
+
+function previewMarkdown() {
+    let md = document.getElementById('input').value;
+    md = md.replace(/^### (.+)$/gm, '<h3>$1</h3>');
+    md = md.replace(/^## (.+)$/gm, '<h2>$1</h2>');
+    md = md.replace(/^# (.+)$/gm, '<h1>$1</h1>');
+    md = md.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+    md = md.replace(/\*(.+?)\*/g, '<em>$1</em>');
+    md = md.replace(/\[(.+?)\]\((.+?)\)/g, '<a href="$2">$1</a>');
+    md = md.replace(/\n/g, '<br>');
+    document.getElementById('output').innerHTML = '<div style="padding: 1rem;">' + md + '</div>';
+}
+
+    </script>
+</body>
+</html>

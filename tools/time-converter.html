@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Time Converter - ConvertHub</title>
+    <link rel="stylesheet" href="../assets/css/universal-tool.css">
+</head>
+<body>
+    <!-- Universal Header -->
+    <header class="universal-header">
+        <div class="header-content">
+            <a href="../index.html" class="logo">
+                <div class="logo-icon">C</div>
+                <span>ConvertHub</span>
+            </a>
+            <nav class="header-nav">
+                <a href="../index.html" class="nav-link">Home</a>
+                <a href="../index.html#tools" class="nav-link">All Tools</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="tool-header">
+            <h1>Time Converter</h1>
+            <p>Convert between time units</p>
+        </div>
+
+        <div class="io-section">
+
+                <div class="content-box">
+                    <div class="io-section">
+                        <div class="input-group">
+                            <label class="input-label">Value</label>
+                            <input type="number" id="value" 
+                                
+                                value="1"
+                                
+                                >
+                        </div>
+                        <div class="input-group">
+                            <label class="input-label">From</label>
+                            <select id="from"></select>
+                        </div>
+                        <div class="input-group">
+                            <label class="input-label">To</label>
+                            <select id="to"></select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="btn-group">
+                    <button class="btn btn-primary" onclick="convertTime()">Convert</button>
+                </div>
+
+                <div class="content-box">
+                    <div class="content-box-header">
+                        <span class="content-box-title">Results</span>
+                    </div>
+                    <div id="output"></div>
+                </div>
+        </div>
+    </main>
+
+    <script src="../assets/js/universal-tool.js"></script>
+    <script>
+
+const units = {sec: 'Second', min: 'Minute', hr: 'Hour', day: 'Day', wk: 'Week', mo: 'Month', yr: 'Year'};
+const rates = {sec: 1, min: 60, hr: 3600, day: 86400, wk: 604800, mo: 2592000, yr: 31536000};
+document.getElementById('from').innerHTML = Object.entries(units).map(([k,v]) => `<option value="${k}">${v}</option>`).join('');
+document.getElementById('to').innerHTML = Object.entries(units).map(([k,v]) => `<option value="${k}">${v}</option>`).join('');
+document.getElementById('from').value = 'hr';
+
+function convertTime() {
+    const val = parseFloat(document.getElementById('value').value);
+    const from = document.getElementById('from').value;
+    const to = document.getElementById('to').value;
+    const result = (val * rates[from] / rates[to]).toFixed(4);
+    document.getElementById('output').innerHTML = `
+        <div style="text-align: center;">
+            <div style="font-size: 2.5rem; font-weight: 700;">${result}</div>
+            <div style="color: var(--text-secondary); margin-top: 0.5rem;">${units[to]}s</div>
+        </div>
+    `;
+}
+convertTime();
+
+    </script>
+</body>
+</html>

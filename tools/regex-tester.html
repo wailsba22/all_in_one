@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Regex Tester - ConvertHub</title>
+    <link rel="stylesheet" href="../assets/css/universal-tool.css">
+</head>
+<body>
+    <!-- Universal Header -->
+    <header class="universal-header">
+        <div class="header-content">
+            <a href="../index.html" class="logo">
+                <div class="logo-icon">C</div>
+                <span>ConvertHub</span>
+            </a>
+            <nav class="header-nav">
+                <a href="../index.html" class="nav-link">Home</a>
+                <a href="../index.html#tools" class="nav-link">All Tools</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="tool-header">
+            <h1>Regex Tester</h1>
+            <p>Test regular expressions</p>
+        </div>
+
+        <div class="io-section">
+
+                <div class="content-box">
+                    <div class="content-box-header">
+                        <span class="content-box-title">Test String</span>
+                    </div>
+                    <textarea id="input" placeholder="Enter text to test..."></textarea>
+                </div>
+                <div class="content-box">
+                    <div class="io-section">
+                        <div class="input-group">
+                            <label class="input-label">Regex Pattern</label>
+                            <input type="text" id="pattern" 
+                                placeholder="/pattern/flags"
+                                
+                                
+                                >
+                        </div>
+                        <div class="input-group">
+                            <label class="input-label">Flags</label>
+                            <input type="text" id="flags" 
+                                placeholder="g, i, m"
+                                value="g"
+                                
+                                >
+                        </div>
+                    </div>
+                </div>
+
+                <div class="btn-group">
+                    <button class="btn btn-primary" onclick="testRegex()">Test Regex</button>
+                </div>
+
+                <div class="content-box">
+                    <div class="content-box-header">
+                        <span class="content-box-title">Results</span>
+                    </div>
+                    <div id="output"></div>
+                </div>
+        </div>
+    </main>
+
+    <script src="../assets/js/universal-tool.js"></script>
+    <script>
+
+function testRegex() {
+    const pattern = document.getElementById('pattern').value;
+    const flags = document.getElementById('flags').value;
+    const text = document.getElementById('input').value;
+    
+    try {
+        const regex = new RegExp(pattern, flags);
+        const matches = text.match(regex) || [];
+        document.getElementById('output').innerHTML = `
+            <div><strong>Matches Found:</strong> ${matches.length}</div>
+            <div style="margin-top: 0.75rem;"><strong>Matches:</strong></div>
+            <div style="font-family: monospace; padding: 0.75rem; background: var(--bg-gray); border-radius: 6px; max-height: 200px; overflow-y: auto;">
+                ${matches.length ? matches.join('<br>') : 'No matches'}
+            </div>
+        `;
+    } catch(e) {
+        UniversalToast.error('Invalid regex: ' + e.message);
+    }
+}
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stopwatch - ConvertHub</title>
+    <link rel="stylesheet" href="../assets/css/universal-tool.css">
+</head>
+<body>
+    <!-- Universal Header -->
+    <header class="universal-header">
+        <div class="header-content">
+            <a href="../index.html" class="logo">
+                <div class="logo-icon">C</div>
+                <span>ConvertHub</span>
+            </a>
+            <nav class="header-nav">
+                <a href="../index.html" class="nav-link">Home</a>
+                <a href="../index.html#tools" class="nav-link">All Tools</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="tool-header">
+            <h1>Stopwatch</h1>
+            <p>Simple stopwatch timer</p>
+        </div>
+
+        <div class="io-section">
+
+
+                <div class="btn-group">
+                    <button class="btn btn-primary" onclick="startStopwatch()">Start</button>
+                    <button class="btn btn-secondary" onclick="stopStopwatch()">Stop</button>
+                    <button class="btn btn-secondary" onclick="resetStopwatch()">Reset</button>
+                </div>
+
+                <div class="content-box">
+                    <div class="content-box-header">
+                        <span class="content-box-title">Results</span>
+                    </div>
+                    <div id="output"></div>
+                </div>
+        </div>
+    </main>
+
+    <script src="../assets/js/universal-tool.js"></script>
+    <script>
+
+let startTime = 0, elapsed = 0, timer = null;
+
+function startStopwatch() {
+    if (!timer) {
+        startTime = Date.now() - elapsed;
+        timer = setInterval(updateTime, 10);
+    }
+}
+
+function stopStopwatch() {
+    if (timer) {
+        clearInterval(timer);
+        timer = null;
+    }
+}
+
+function resetStopwatch() {
+    stopStopwatch();
+    elapsed = 0;
+    updateTime();
+}
+
+function updateTime() {
+    elapsed = Date.now() - startTime;
+    const ms = Math.floor(elapsed % 1000 / 10);
+    const secs = Math.floor(elapsed / 1000 % 60);
+    const mins = Math.floor(elapsed / 60000 % 60);
+    const hrs = Math.floor(elapsed / 3600000);
+    
+    document.getElementById('output').innerHTML = `
+        <div style="text-align: center; font-size: 3rem; font-weight: 700; font-family: monospace;">
+            ${hrs.toString().padStart(2,'0')}:${mins.toString().padStart(2,'0')}:${secs.toString().padStart(2,'0')}.${ms.toString().padStart(2,'0')}
+        </div>
+    `;
+}
+updateTime();
+
+    </script>
+</body>
+</html>

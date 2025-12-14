@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XML Formatter - ConvertHub</title>
+    <link rel="stylesheet" href="../assets/css/universal-tool.css">
+</head>
+<body>
+    <!-- Universal Header -->
+    <header class="universal-header">
+        <div class="header-content">
+            <a href="../index.html" class="logo">
+                <div class="logo-icon">C</div>
+                <span>ConvertHub</span>
+            </a>
+            <nav class="header-nav">
+                <a href="../index.html" class="nav-link">Home</a>
+                <a href="../index.html#tools" class="nav-link">All Tools</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="tool-header">
+            <h1>XML Formatter</h1>
+            <p>Format and beautify XML</p>
+        </div>
+
+        <div class="io-section">
+
+                <div class="content-box">
+                    <div class="content-box-header">
+                        <span class="content-box-title">XML Input</span>
+                    </div>
+                    <textarea id="input" placeholder="Enter XML..."></textarea>
+                </div>
+
+                <div class="btn-group">
+                    <button class="btn btn-primary" onclick="formatXML()">Format</button>
+                    <button class="btn btn-secondary" onclick="copyFromElement("output")">Copy</button>
+                </div>
+
+                <div class="content-box">
+                    <div class="content-box-header">
+                        <span class="content-box-title">Formatted XML</span>
+                    </div>
+                    <textarea id="output" readonly></textarea>
+                </div>
+        </div>
+    </main>
+
+    <script src="../assets/js/universal-tool.js"></script>
+    <script>
+
+function formatXML() {
+    const xml = document.getElementById('input').value;
+    try {
+        const formatted = xml.replace(/(>)(<)(\/*)/g, '$1\n$2$3')
+            .split('\n')
+            .map(line => line.trim())
+            .filter(line => line.length > 0)
+            .join('\n');
+        document.getElementById('output').value = formatted;
+    } catch(e) {
+        UniversalToast.error('Invalid XML');
+    }
+}
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSV to JSON Converter - ConvertHub</title>
+    <link rel="stylesheet" href="../assets/css/universal-tool.css">
+</head>
+<body>
+    <!-- Universal Header -->
+    <header class="universal-header">
+        <div class="header-content">
+            <a href="../index.html" class="logo">
+                <div class="logo-icon">C</div>
+                <span>ConvertHub</span>
+            </a>
+            <nav class="header-nav">
+                <a href="../index.html" class="nav-link">Home</a>
+                <a href="../index.html#tools" class="nav-link">All Tools</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="tool-header">
+            <h1>CSV to JSON Converter</h1>
+            <p>Convert CSV to JSON format</p>
+        </div>
+
+        <div class="io-section">
+
+                <div class="content-box">
+                    <div class="content-box-header">
+                        <span class="content-box-title">CSV Input</span>
+                    </div>
+                    <textarea id="input" placeholder="name,age\nJohn,30"></textarea>
+                </div>
+
+                <div class="btn-group">
+                    <button class="btn btn-primary" onclick="csvToJSON()">Convert to JSON</button>
+                    <button class="btn btn-secondary" onclick="copyFromElement("output")">Copy</button>
+                </div>
+
+                <div class="content-box">
+                    <div class="content-box-header">
+                        <span class="content-box-title">JSON Output</span>
+                    </div>
+                    <textarea id="output" readonly></textarea>
+                </div>
+        </div>
+    </main>
+
+    <script src="../assets/js/universal-tool.js"></script>
+    <script>
+
+function csvToJSON() {
+    try {
+        const csv = document.getElementById('input').value;
+        const lines = csv.split('\n').filter(l => l.trim());
+        const headers = lines[0].split(',').map(h => h.trim());
+        const result = lines.slice(1).map(line => {
+            const values = line.split(',');
+            return headers.reduce((obj, header, i) => {
+                obj[header] = values[i] ? values[i].trim() : '';
+                return obj;
+            }, {});
+        });
+        document.getElementById('output').value = JSON.stringify(result, null, 2);
+    } catch(e) {
+        UniversalToast.error('Invalid CSV');
+    }
+}
+
+    </script>
+</body>
+</html>

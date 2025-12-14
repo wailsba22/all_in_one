@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JPG to PNG Converter - ConvertHub</title>
+    <link rel="stylesheet" href="../assets/css/universal-tool.css">
+</head>
+<body>
+    <!-- Universal Header -->
+    <header class="universal-header">
+        <div class="header-content">
+            <a href="../index.html" class="logo">
+                <div class="logo-icon">C</div>
+                <span>ConvertHub</span>
+            </a>
+            <nav class="header-nav">
+                <a href="../index.html" class="nav-link">Home</a>
+                <a href="../index.html#tools" class="nav-link">All Tools</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="tool-header">
+            <h1>JPG to PNG Converter</h1>
+            <p>Convert JPG images to PNG format</p>
+        </div>
+
+        <div class="io-section">
+
+                <div class="content-box">
+                    <div class="content-box-header">
+                        <span class="content-box-title">Upload Image</span>
+                    </div>
+                    <div id="uploadZone"></div>
+                </div>
+
+                <div class="btn-group">
+                    <button class="btn btn-primary" onclick="downloadConverted()">Download PNG</button>
+                </div>
+
+                <div class="content-box">
+                    <div class="content-box-header">
+                        <span class="content-box-title">Results</span>
+                    </div>
+                    <div id="output"></div>
+                </div>
+        </div>
+    </main>
+
+    <script src="../assets/js/universal-tool.js"></script>
+    <script>
+
+let convertedCanvas = null;
+const zone = document.getElementById('uploadZone');
+zone.innerHTML = '<div class="file-upload-zone" id="dropZone" onclick="document.getElementById(\'fileInput\').click()" id="dropZone"><div class="upload-icon">📁</div><div class="upload-text">Click to upload JPG</div><div class="upload-hint">Or drag and drop</div></div><input type="file" id="fileInput" accept="image/jpeg,image/jpg" style="display:none">';
+
+document.getElementById('fileInput').addEventListener('change', handleFile);
+
+function handleFile(e) {
+    const file = e.target.files[0];
+    if (!file) return;
+    
+    const reader = new FileReader();
+    reader.onload = (event) => {
+        const img = new Image();
+        img.onload = () => {
+            // Show preview in upload zone
+            document.getElementById('dropZone').innerHTML = '<img src="' + event.target.result + '" style="max-width:100%;max-height:200px;border-radius:8px;box-shadow:var(--shadow)">';
+            
+            convertedCanvas = document.createElement('canvas');
+            convertedCanvas.width = img.width;
+            convertedCanvas.height = img.height;
+            convertedCanvas.getContext('2d').drawImage(img, 0, 0);
+            document.getElementById('output').innerHTML = '<div style="text-align:center"><img src="' + convertedCanvas.toDataURL('image/png') + '" style="max-width:100%;border-radius:8px;box-shadow:var(--shadow)"></div>';
+            UniversalToast.success('Image converted to PNG!');
+        };
+        img.src = event.target.result;
+    };
+    reader.readAsDataURL(file);
+}
+
+function downloadConverted() {
+    if (!convertedCanvas) {
+        UniversalToast.error('Please upload an image first');
+        return;
+    }
+    convertedCanvas.toBlob(blob => {
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'converted.png';
+        a.click();
+        UniversalToast.success('Downloaded!');
+    }, 'image/png');
+}
+
+    </script>
+</body>
+</html>

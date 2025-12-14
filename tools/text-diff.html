@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text Diff Checker - ConvertHub</title>
+    <link rel="stylesheet" href="../assets/css/universal-tool.css">
+</head>
+<body>
+    <!-- Universal Header -->
+    <header class="universal-header">
+        <div class="header-content">
+            <a href="../index.html" class="logo">
+                <div class="logo-icon">C</div>
+                <span>ConvertHub</span>
+            </a>
+            <nav class="header-nav">
+                <a href="../index.html" class="nav-link">Home</a>
+                <a href="../index.html#tools" class="nav-link">All Tools</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="tool-header">
+            <h1>Text Diff Checker</h1>
+            <p>Compare two texts and show differences</p>
+        </div>
+
+        <div class="io-section">
+
+                <div class="content-box">
+                    <div class="content-box-header">
+                        <span class="content-box-title">Text 1</span>
+                    </div>
+                    <textarea id="input" placeholder="Enter first text..."></textarea>
+                </div>
+
+                <div class="btn-group">
+                    <button class="btn btn-primary" onclick="compareDiff()">Compare</button>
+                </div>
+
+                <div class="content-box">
+                    <div class="content-box-header">
+                        <span class="content-box-title">Text 2</span>
+                    </div>
+                    <textarea id="input2" ></textarea>
+                </div>
+        </div>
+    </main>
+
+    <script src="../assets/js/universal-tool.js"></script>
+    <script>
+
+function compareDiff() {
+    const text1 = document.getElementById('input').value.split('\n');
+    const text2 = document.getElementById('input2').value.split('\n');
+    const maxLen = Math.max(text1.length, text2.length);
+    let html = '<div style="display: grid; gap: 0.5rem;">';
+    
+    for (let i = 0; i < maxLen; i++) {
+        const line1 = text1[i] || '';
+        const line2 = text2[i] || '';
+        const same = line1 === line2;
+        const color = same ? 'var(--bg-gray)' : '#fef2f2';
+        html += `<div style="padding: 0.5rem; background: ${color}; border-radius: 4px; font-family: monospace; font-size: 0.85rem;">${line1 || '(empty)'}</div>`;
+    }
+    html += '</div>';
+    document.getElementById('output').innerHTML = html;
+}
+
+    </script>
+</body>
+</html>

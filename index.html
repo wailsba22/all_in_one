@@ -1,0 +1,981 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ConvertHub - Free Online Conversion Tools</title>
+    <meta name="description" content="Free online conversion tools for images, documents, text, units, and more. Convert files locally in your browser with no uploads required.">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+/* Reset & Variables */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --primary: #6366f1;
+    --primary-dark: #4f46e5;
+    --secondary: #8b5cf6;
+    --success: #10b981;
+    --danger: #ef4444;
+    --warning: #f59e0b;
+    --dark: #1f2937;
+    --gray: #6b7280;
+    --light-gray: #f3f4f6;
+    --white: #ffffff;
+    --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.15);
+    --radius: 12px;
+    --transition: all 0.3s ease;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+    color: var(--dark);
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* Header */
+.header {
+    background: var(--white);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid #e8e8e8;
+}
+
+.header .container {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 2rem;
+    padding-left: 1rem;
+}
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: var(--primary);
+    margin-right: 0;
+}   color: var(--primary);
+}
+
+.logo i {
+    font-size: 2rem;
+}
+
+.nav {
+    display: flex;
+    gap: 1.5rem;
+    align-items: center;
+    margin-left: 0;
+}
+
+.nav > a {
+    text-decoration: none;
+    color: var(--dark);
+    font-weight: 500;
+    transition: var(--transition);
+    position: relative;
+}
+
+.nav > a:hover {
+    color: var(--primary);
+}
+
+.nav > a::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--primary);
+    transition: var(--transition);
+}
+
+.nav > a:hover::after {
+    width: 100%;
+}
+
+/* Navigation Dropdown Menus */
+.nav-dropdown {
+    position: relative;
+}
+
+.dropdown-toggle {
+    text-decoration: none;
+    color: #333;
+    font-weight: 500;
+    transition: var(--transition);
+    position: relative;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.75rem 0.5rem;
+    font-size: 0.95rem;
+    white-space: nowrap;
+}
+
+.dropdown-toggle:hover {
+    color: var(--primary);
+}
+
+.dropdown-toggle .fa-chevron-down {
+    font-size: 0.7rem;
+    transition: transform 0.3s ease;
+}
+
+.nav-dropdown:hover .dropdown-toggle .fa-chevron-down {
+    transform: rotate(180deg);
+}
+
+.dropdown-menu {
+    position: absolute;
+    top: calc(100% + 0.75rem);
+    left: 0;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+    padding: 0;
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 1000;
+    border: 1px solid #e0e0e0;
+}
+
+.mega-menu {
+    min-width: 420px;
+    max-width: 480px;
+}
+
+.mega-menu-content {
+    padding: 0.5rem 0;
+    max-height: 450px;
+    overflow-y: auto;
+}
+
+.mega-menu-content::-webkit-scrollbar {
+    width: 6px;
+}
+
+.mega-menu-content::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+}
+
+.mega-menu-content::-webkit-scrollbar-thumb {
+    background: #c0c0c0;
+    border-radius: 10px;
+}
+
+.mega-menu-content::-webkit-scrollbar-thumb:hover {
+    background: #a0a0a0;
+}
+
+.mega-menu-content h4 {
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: #888;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin: 0;
+    padding: 0.75rem 1rem 0.5rem 1rem;
+    border-bottom: 1px solid #f0f0f0;
+    position: sticky;
+    top: 0;
+    background: white;
+    z-index: 1;
+}
+
+.nav-dropdown:hover .dropdown-menu {
+    max-height: 1000px;
+    opacity: 1;
+    visibility: visible;
+}
+
+.dropdown-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0;
+}
+
+.dropdown-item {
+    padding: 0.625rem 1rem;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 0.75rem;
+    background: transparent;
+    border: none;
+    border-radius: 0;
+    text-align: left;
+    text-decoration: none;
+    color: #333;
+    border-bottom: 1px solid #f3f4f6;
+}
+
+.dropdown-item:last-child {
+    border-bottom: none;
+}
+
+.dropdown-item:hover {
+    background: #f8f9ff;
+    color: #667eea;
+}
+
+.dropdown-item img {
+    width: 20px;
+    height: 20px;
+    object-fit: contain;
+    flex-shrink: 0;
+    opacity: 0.7;
+    transition: opacity 0.2s ease;
+}
+
+.dropdown-item:hover img {
+    opacity: 1;
+}
+
+.dropdown-item-content {
+    flex: 1;
+    min-width: 0;
+}
+
+.dropdown-item-title {
+    font-weight: 500;
+    font-size: 0.875rem;
+    line-height: 1.4;
+    color: inherit;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.dropdown-item-desc {
+    display: none;
+}
+
+.menu-toggle {
+    display: none;
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    color: var(--primary);
+    cursor: pointer;
+    margin-left: auto;
+}
+
+/* Hero Section */
+.hero {
+    text-align: center;
+    padding: 4rem 0;
+    color: var(--white);
+}
+
+.hero h1 {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.hero p {
+    font-size: 1.3rem;
+    margin-bottom: 2rem;
+    opacity: 0.95;
+}
+
+.hero-features {
+    display: flex;
+    justify-content: center;
+    gap: 3rem;
+    margin-top: 2rem;
+}
+
+.feature {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.feature i {
+    font-size: 2rem;
+    background: var(--white);
+    color: var(--primary);
+    padding: 1rem;
+    border-radius: 50%;
+    box-shadow: var(--shadow);
+}
+
+.feature span {
+    font-weight: 600;
+}
+
+/* Search Section */
+.search-section {
+    padding: 2rem 0;
+}
+
+.search-box {
+    background: var(--white);
+    border-radius: var(--radius);
+    padding: 1rem 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    box-shadow: var(--shadow-lg);
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.search-box i {
+    color: var(--gray);
+    font-size: 1.2rem;
+}
+
+.search-box input {
+    flex: 1;
+    border: none;
+    outline: none;
+    font-size: 1rem;
+}
+
+/* Category Sections */
+.category-section, .popular-section {
+    background: var(--white);
+    padding: 3rem 0;
+    margin: 2rem 0;
+    border-radius: var(--radius);
+}
+
+.category-section h2, .popular-section h2 {
+    margin-bottom: 2rem;
+    font-size: 2rem;
+    color: var(--dark);
+}
+
+.category-section h2 i {
+    color: var(--primary);
+}
+
+/* Categories Section with Dropdowns */
+.categories-section {
+    background: var(--white);
+    padding: 3rem 0;
+    margin: 2rem 0;
+    border-radius: var(--radius);
+}
+
+.category-dropdown {
+    margin-bottom: 1rem;
+    border: 2px solid var(--light-gray);
+    border-radius: var(--radius);
+    overflow: hidden;
+    transition: var(--transition);
+}
+
+.category-dropdown:hover {
+    border-color: var(--primary);
+    box-shadow: var(--shadow);
+}
+
+.category-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem;
+    background: linear-gradient(135deg, #f8f9ff 0%, #fff 100%);
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.category-header:hover {
+    background: linear-gradient(135deg, #e0e7ff 0%, #f8f9ff 100%);
+}
+
+.category-title {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex: 1;
+}
+
+.category-icon {
+    width: 48px;
+    height: 48px;
+    object-fit: contain;
+}
+
+.category-title h3 {
+    margin: 0;
+    font-size: 1.4rem;
+    color: var(--dark);
+}
+
+.tool-count {
+    background: var(--primary);
+    color: white;
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-left: 1rem;
+}
+
+.dropdown-arrow {
+    font-size: 1.5rem;
+    color: var(--primary);
+    transition: transform 0.3s ease;
+}
+
+.category-dropdown.active .dropdown-arrow {
+    transform: rotate(180deg);
+}
+
+.category-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+    background: var(--white);
+}
+
+.category-dropdown.active .category-content {
+    max-height: 2000px;
+    padding: 1.5rem;
+}
+
+/* Tools Grid */
+.tools-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 1.5rem;
+}
+
+.tools-grid.compact {
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1rem;
+}
+
+.tool-card {
+    background: var(--white);
+    border: 2px solid var(--light-gray);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    cursor: pointer;
+    transition: var(--transition);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.tool-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: linear-gradient(90deg, var(--primary), var(--secondary));
+    transform: scaleX(0);
+    transition: var(--transition);
+}
+
+.tool-card:hover::before {
+    transform: scaleX(1);
+}
+
+.tool-card:hover {
+    border-color: var(--primary);
+    box-shadow: var(--shadow-lg);
+    transform: translateY(-5px);
+}
+
+.tool-card i {
+    font-size: 2.5rem;
+    color: var(--primary);
+    margin-bottom: 1rem;
+}
+
+/* Tool Page Styles */
+.tool-page {
+    padding: 3rem 0;
+    min-height: calc(100vh - 200px);
+}
+
+.tool-header {
+    text-align: center;
+    margin-bottom: 2.5rem;
+    padding: 2rem 0;
+}
+
+.tool-icon {
+    margin-bottom: 1.5rem;
+}
+
+.tool-icon img {
+    width: 64px;
+    height: 64px;
+    object-fit: contain;
+    filter: drop-shadow(0 4px 12px rgba(0,0,0,0.1));
+}
+
+.tool-info h1 {
+    font-size: 2.25rem;
+    color: #1a1a1a;
+    margin: 0 0 0.75rem 0;
+    font-weight: 700;
+}
+
+.tool-info p {
+    font-size: 1.125rem;
+    color: #666;
+    margin: 0;
+    line-height: 1.6;
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.tool-converter {
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 3rem;
+    box-shadow: 0 2px 16px rgba(0,0,0,0.06);
+    border: 1px solid #e8e8e8;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+/* Professional Tool Interface Styling */
+.tool-converter .section-title {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #555;
+    margin-bottom: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.tool-converter textarea,
+.tool-converter input[type="text"],
+.tool-converter input[type="number"],
+.tool-converter input[type="email"],
+.tool-converter input[type="url"],
+.tool-converter select {
+    width: 100%;
+    padding: 1rem 1.25rem;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 0.9375rem;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    transition: all 0.2s ease;
+    background: white;
+    color: #333;
+}
+
+.tool-converter textarea:focus,
+.tool-converter input:focus,
+.tool-converter select:focus {
+    outline: none;
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.08);
+}
+
+.tool-converter textarea {
+    min-height: 250px;
+    resize: vertical;
+    font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+    font-size: 0.875rem;
+    line-height: 1.6;
+}
+
+.tool-converter button {
+    background: #667eea;
+    color: white;
+    border: none;
+    padding: 0.875rem 2.5rem;
+    border-radius: 6px;
+    font-size: 0.9375rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 8px rgba(102, 126, 234, 0.25);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.tool-converter button:hover {
+    background: #5568d3;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.35);
+}
+
+.tool-converter button.secondary {
+    background: #f8f9fa;
+    color: #667eea;
+    border: 1px solid #e0e0e0;
+    box-shadow: none;
+}
+
+.tool-converter button.secondary:hover {
+    background: #e9ecef;
+    border-color: #667eea;
+}
+
+.tool-converter .copy-btn {
+    background: #ffffff;
+    color: #667eea;
+    border: 1px solid #667eea;
+    padding: 0.625rem 1.5rem;
+    font-size: 0.875rem;
+    box-shadow: none;
+}
+
+.tool-converter .copy-btn:hover {
+    background: #667eea;
+    color: white;
+}
+
+.tool-converter .download-btn {
+    background: #28a745;
+    box-shadow: 0 2px 8px rgba(40, 167, 69, 0.25);
+}
+
+.tool-converter .download-btn:hover {
+    background: #218838;
+    box-shadow: 0 4px 12px rgba(40, 167, 69, 0.35);
+}
+
+.tool-converter .file-upload {
+    border: 2px dashed #c0c0c0;
+    border-radius: 10px;
+    padding: 3rem 2rem;
+    text-align: center;
+    background: #fafafa;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.tool-converter .file-upload:hover {
+    border-color: #667eea;
+    background: #f5f7ff;
+}
+
+.tool-converter .file-upload i {
+    font-size: 3rem;
+    color: #667eea;
+    margin-bottom: 1rem;
+}
+
+.tool-converter .result-actions {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1.5rem;
+    justify-content: center;
+}
+
+.tool-converter .info-box {
+    background: #e7f3ff;
+    border-left: 4px solid #667eea;
+    color: #004085;
+    padding: 1rem 1.25rem;
+    border-radius: 6px;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: flex-start;
+    gap: 0.875rem;
+}
+
+.tool-converter .info-box i {
+    font-size: 1.25rem;
+    margin-top: 0.125rem;
+    color: #667eea;
+}
+
+.tool-converter .button-group {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 1.5rem;
+}
+
+.tool-converter .output-area {
+    background: white;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 1.25rem;
+    min-height: 250px;
+    font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+    font-size: 0.875rem;
+    line-height: 1.6;
+    color: #333;
+    white-space: pre-wrap;
+    word-break: break-all;
+}
+
+/* Footer */
+.footer {
+    background: var(--dark);
+    color: var(--white);
+    padding: 3rem 0 1rem;
+    margin-top: 4rem;
+}
+
+.footer p {
+    text-align: center;
+}
+
+.footer a {
+    color: var(--primary);
+    text-decoration: none;
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+    .dropdown-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+    
+    .mega-menu {
+        min-width: 550px;
+    }
+}
+
+@media (max-width: 768px) {
+    .nav {
+        display: none;
+    }
+    
+    .tool-converter {
+        padding: 1.5rem;
+    }
+    
+    .tool-info h1 {
+        font-size: 1.75rem;
+    }
+    
+    .dropdown-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+    
+    .menu-toggle {
+        display: block;
+    }
+    
+    .hero h1 {
+        font-size: 2rem;
+    }
+    
+    .hero p {
+        font-size: 1rem;
+    }
+    
+    .hero-features {
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+    
+    .tools-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.hidden {
+    display: none !important;
+}
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <i class="fas fa-sync-alt"></i>
+                <span>ConvertHub</span>
+            </div>
+            <nav class="nav">
+                <!-- Images Dropdown -->
+                <div class="nav-dropdown">
+                    <a href="#" class="dropdown-toggle">
+                        Image Tools <i class="fas fa-chevron-down"></i>
+                    </a>
+                    <div class="dropdown-menu mega-menu">
+                        <div class="mega-menu-content">
+                            <h4>Image Converters</h4>
+                            <div class="dropdown-grid" id="nav-image-tools"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Text Dropdown -->
+                <div class="nav-dropdown">
+                    <a href="#" class="dropdown-toggle">
+                        Text Tools <i class="fas fa-chevron-down"></i>
+                    </a>
+                    <div class="dropdown-menu mega-menu">
+                        <div class="mega-menu-content">
+                            <h4>Text & Encoding</h4>
+                            <div class="dropdown-grid" id="nav-text-tools"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Developer Dropdown -->
+                <div class="nav-dropdown">
+                    <a href="#" class="dropdown-toggle">
+                        Developer Tools <i class="fas fa-chevron-down"></i>
+                    </a>
+                    <div class="dropdown-menu mega-menu">
+                        <div class="mega-menu-content">
+                            <h4>Code & Development</h4>
+                            <div class="dropdown-grid" id="nav-dev-tools"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Units Dropdown -->
+                <div class="nav-dropdown">
+                    <a href="#" class="dropdown-toggle">
+                        Unit Converters <i class="fas fa-chevron-down"></i>
+                    </a>
+                    <div class="dropdown-menu mega-menu">
+                        <div class="mega-menu-content">
+                            <h4>Measurement Converters</h4>
+                            <div class="dropdown-grid" id="nav-unit-tools"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Utilities Dropdown -->
+                <div class="nav-dropdown">
+                    <a href="#" class="dropdown-toggle">
+                        All Tools <i class="fas fa-chevron-down"></i>
+                    </a>
+                    <div class="dropdown-menu mega-menu">
+                        <div class="mega-menu-content">
+                            <h4>Utility Tools</h4>
+                            <div class="dropdown-grid" id="nav-utility-tools"></div>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+            <button class="menu-toggle" id="menuToggle">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="container">
+            <h1>All-in-One Conversion Tools</h1>
+            <p>Convert files, images, text, units and more - all in your browser, 100% private and free</p>
+            <div class="hero-features">
+                <div class="feature">
+                    <i class="fas fa-shield-alt"></i>
+                    <span>100% Safe</span>
+                </div>
+                <div class="feature">
+                    <i class="fas fa-bolt"></i>
+                    <span>Lightning Fast</span>
+                </div>
+                <div class="feature">
+                    <i class="fas fa-heart"></i>
+                    <span>Completely Free</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Quick Search -->
+    <section class="search-section">
+        <div class="container">
+            <div class="search-box">
+                <i class="fas fa-search"></i>
+                <input type="text" id="searchInput" placeholder="Search for a converter... (e.g., JPG to PNG, Base64, Color)">
+            </div>
+        </div>
+    </section>
+
+    <!-- Popular Tools -->
+    <section class="popular-section">
+        <div class="container">
+            <h2> Most Popular</h2>
+            <div class="tools-grid compact" id="popularTools">
+                <!-- Populated by JavaScript -->
+            </div>
+        </div>
+    </section>
+
+
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3><i class="fas fa-sync-alt"></i> ConvertHub</h3>
+                    <p>Your all-in-one solution for online conversions. Fast, free, and privacy-focused.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <a href="#home">Home</a>
+                    <a href="#image">Images</a>
+                    <a href="#text">Text</a>
+                    <a href="#dev">Developer</a>
+                </div>
+                <div class="footer-section">
+                    <h4>Privacy</h4>
+                    <p>All conversions happen in your browser. No files are uploaded to any server.</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 ConvertHub. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Converter Page (Full Screen) -->
+    <div class="converter-page" id="converterPage">
+        <div class="converter-page-header">
+            <button class="back-button" id="backButton">
+                <i class="fas fa-arrow-left"></i> Back to Tools
+            </button>
+        </div>
+        <div class="converter-page-content">
+            <div id="converterContainer">
+                <!-- Tool interface loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <script src="assets/js/tools-data.js"></script>
+    <script src="assets/js/converters.js"></script>
+    <script src="assets/js/converters-part2.js"></script>
+    <script src="assets/js/converters-part3.js"></script>
+    <script src="assets/js/main.js"></script>
+</body>
+</html>

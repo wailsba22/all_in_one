@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML Entities Encoder/Decoder - ConvertHub</title>
+    <link rel="stylesheet" href="../assets/css/universal-tool.css">
+</head>
+<body>
+    <!-- Universal Header -->
+    <header class="universal-header">
+        <div class="header-content">
+            <a href="../index.html" class="logo">
+                <div class="logo-icon">C</div>
+                <span>ConvertHub</span>
+            </a>
+            <nav class="header-nav">
+                <a href="../index.html" class="nav-link">Home</a>
+                <a href="../index.html#tools" class="nav-link">All Tools</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="tool-header">
+            <h1>HTML Entities Encoder/Decoder</h1>
+            <p>Encode or decode HTML entities</p>
+        </div>
+
+        <div class="io-section">
+
+                <div class="content-box">
+                    <div class="content-box-header">
+                        <span class="content-box-title">Text Input</span>
+                    </div>
+                    <textarea id="input" placeholder="Enter text..."></textarea>
+                </div>
+
+                <div class="btn-group">
+                    <button class="btn btn-primary" onclick="encodeHTML()">Encode</button>
+                    <button class="btn btn-secondary" onclick="decodeHTML()">Decode</button>
+                    <button class="btn btn-secondary" onclick="copyFromElement("output")">Copy</button>
+                </div>
+
+                <div class="content-box">
+                    <div class="content-box-header">
+                        <span class="content-box-title">Result</span>
+                    </div>
+                    <textarea id="output" readonly></textarea>
+                </div>
+        </div>
+    </main>
+
+    <script src="../assets/js/universal-tool.js"></script>
+    <script>
+
+function encodeHTML() {
+    const text = document.getElementById('input').value;
+    const div = document.createElement('div');
+    div.textContent = text;
+    document.getElementById('output').value = div.innerHTML;
+}
+function decodeHTML() {
+    const text = document.getElementById('input').value;
+    const div = document.createElement('div');
+    div.innerHTML = text;
+    document.getElementById('output').value = div.textContent;
+}
+
+    </script>
+</body>
+</html>

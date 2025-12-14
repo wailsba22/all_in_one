@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hash Generator - ConvertHub</title>
+    <link rel="stylesheet" href="../assets/css/universal-tool.css">
+</head>
+<body>
+    <!-- Universal Header -->
+    <header class="universal-header">
+        <div class="header-content">
+            <a href="../index.html" class="logo">
+                <div class="logo-icon">C</div>
+                <span>ConvertHub</span>
+            </a>
+            <nav class="header-nav">
+                <a href="../index.html" class="nav-link">Home</a>
+                <a href="../index.html#tools" class="nav-link">All Tools</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="tool-header">
+            <h1>Hash Generator</h1>
+            <p>Generate MD5, SHA-1, SHA-256 hashes</p>
+        </div>
+
+        <div class="io-section">
+
+                <div class="content-box">
+                    <div class="content-box-header">
+                        <span class="content-box-title">Text to Hash</span>
+                    </div>
+                    <textarea id="input" placeholder="Enter text..."></textarea>
+                </div>
+
+                <div class="btn-group">
+                    <button class="btn btn-primary" onclick="generateHashes()">Generate Hashes</button>
+                </div>
+
+                <div class="content-box">
+                    <div class="content-box-header">
+                        <span class="content-box-title">Results</span>
+                    </div>
+                    <div id="output"></div>
+                </div>
+        </div>
+    </main>
+
+    <script src="../assets/js/universal-tool.js"></script>
+    <script>
+
+async function generateHashes() {
+    const text = document.getElementById('input').value;
+    if (!text) return;
+    
+    const encoder = new TextEncoder();
+    const data = encoder.encode(text);
+    
+    const sha256 = await crypto.subtle.digest('SHA-256', data);
+    const sha1 = await crypto.subtle.digest('SHA-1', data);
+    
+    const hex = arr => Array.from(new Uint8Array(arr)).map(b => b.toString(16).padStart(2, '0')).join('');
+    
+    document.getElementById('output').innerHTML = `
+        <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+            <div>
+                <strong style="color: var(--text-secondary); font-size: 0.85rem;">SHA-256:</strong>
+                <div style="font-family: monospace; word-break: break-all; padding: 0.5rem; background: var(--bg-gray); border-radius: 6px; margin-top: 0.25rem;">
+                    ${hex(sha256)}
+                </div>
+            </div>
+            <div>
+                <strong style="color: var(--text-secondary); font-size: 0.85rem;">SHA-1:</strong>
+                <div style="font-family: monospace; word-break: break-all; padding: 0.5rem; background: var(--bg-gray); border-radius: 6px; margin-top: 0.25rem;">
+                    ${hex(sha1)}
+                </div>
+            </div>
+        </div>
+    `;
+}
+
+    </script>
+</body>
+</html>

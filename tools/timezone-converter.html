@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Timezone Converter - ConvertHub</title>
+    <link rel="stylesheet" href="../assets/css/universal-tool.css">
+</head>
+<body>
+    <!-- Universal Header -->
+    <header class="universal-header">
+        <div class="header-content">
+            <a href="../index.html" class="logo">
+                <div class="logo-icon">C</div>
+                <span>ConvertHub</span>
+            </a>
+            <nav class="header-nav">
+                <a href="../index.html" class="nav-link">Home</a>
+                <a href="../index.html#tools" class="nav-link">All Tools</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="tool-header">
+            <h1>Timezone Converter</h1>
+            <p>Convert time between timezones</p>
+        </div>
+
+        <div class="io-section">
+
+                <div class="content-box">
+                    <div class="io-section">
+                        <div class="input-group">
+                            <label class="input-label">Time</label>
+                            <input type="datetime-local" id="timeInput" 
+                                
+                                
+                                
+                                >
+                        </div>
+                    </div>
+                </div>
+
+                <div class="btn-group">
+                    <button class="btn btn-primary" onclick="convertTimezone()">Convert</button>
+                </div>
+
+                <div class="content-box">
+                    <div class="content-box-header">
+                        <span class="content-box-title">Results</span>
+                    </div>
+                    <div id="output"></div>
+                </div>
+        </div>
+    </main>
+
+    <script src="../assets/js/universal-tool.js"></script>
+    <script>
+
+document.getElementById('timeInput').value = new Date().toISOString().slice(0,16);
+
+function convertTimezone() {
+    const time = document.getElementById('timeInput').value;
+    const date = new Date(time);
+    
+    document.getElementById('output').innerHTML = `
+        <div style="display: grid; gap: 0.5rem;">
+            <div><strong>UTC:</strong> ${date.toUTCString()}</div>
+            <div><strong>Local:</strong> ${date.toLocaleString()}</div>
+            <div><strong>ISO:</strong> ${date.toISOString()}</div>
+            <div><strong>Unix:</strong> ${Math.floor(date.getTime() / 1000)}</div>
+        </div>
+    `;
+}
+convertTimezone();
+
+    </script>
+</body>
+</html>

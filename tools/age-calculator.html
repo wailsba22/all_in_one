@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Age Calculator - ConvertHub</title>
+    <link rel="stylesheet" href="../assets/css/universal-tool.css">
+</head>
+<body>
+    <!-- Universal Header -->
+    <header class="universal-header">
+        <div class="header-content">
+            <a href="../index.html" class="logo">
+                <div class="logo-icon">C</div>
+                <span>ConvertHub</span>
+            </a>
+            <nav class="header-nav">
+                <a href="../index.html" class="nav-link">Home</a>
+                <a href="../index.html#tools" class="nav-link">All Tools</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="tool-header">
+            <h1>Age Calculator</h1>
+            <p>Calculate your exact age in years, months, days, and more</p>
+        </div>
+
+        <div class="io-section">
+
+                <div class="content-box">
+                    <div class="io-section">
+                        <div class="input-group">
+                            <label class="input-label">Day</label>
+                            <input type="number" id="day" 
+                                placeholder="DD"
+                                
+                                min="1"
+                                max="31">
+                        </div>
+                        <div class="input-group">
+                            <label class="input-label">Month</label>
+                            <input type="number" id="month" 
+                                placeholder="MM"
+                                
+                                min="1"
+                                max="12">
+                        </div>
+                        <div class="input-group">
+                            <label class="input-label">Year</label>
+                            <input type="number" id="year" 
+                                placeholder="YYYY"
+                                
+                                min="1900"
+                                max="2025">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="btn-group">
+                    <button class="btn btn-primary" onclick="calculateAge()">🎂 Calculate My Age</button>
+                </div>
+
+                <div class="content-box">
+                    <div class="content-box-header">
+                        <span class="content-box-title">Results</span>
+                    </div>
+                    <div id="output"></div>
+                </div>
+        </div>
+    </main>
+
+    <script src="../assets/js/universal-tool.js"></script>
+    <script>
+
+// Set current year as max
+const currentYear = new Date().getFullYear();
+document.getElementById('year').max = currentYear;
+
+function calculateAge() {
+    const day = parseInt(document.getElementById('day').value);
+    const month = parseInt(document.getElementById('month').value);
+    const year = parseInt(document.getElementById('year').value);
+    const output = document.getElementById('output');
+    
+    if (!day || !month || !year) {
+        UniversalToast.error('Please enter day, month, and year');
+        return;
+    }
+    
+    if (day < 1 || day > 31 || month < 1 || month > 12 || year < 1900) {
+        UniversalToast.error('Please enter valid date values');
+        return;
+    }
+    
+    const birthDate = new Date(year, month - 1, day);
+    const today = new Date();
+    
+    if (birthDate > today) {
+        UniversalToast.error('Birth date cannot be in the future');
+        return;
+    }
+    
+    if (isNaN(birthDate.getTime())) {
+        UniversalToast.error('Invalid date');
+        return;
+    }
+    
+    let years = today.getFullYear() - birthDate.getFullYear();
+    let months = today.getMonth() - birthDate.getMonth();
+    let days = today.getDate() - birthDate.getDate();
+    
+    if (days < 0) {
+        months--;
+        days += new Date(today.getFullYear(), today.getMonth(), 0).getDate();
+    }
+    if (months < 0) {
+        years--;
+        months += 12;
+    }
+    
+    const totalDays = Math.floor((today - birthDate) / (1000 * 60 * 60 * 24));
+    const totalWeeks = Math.floor(totalDays / 7);
+    const totalMonths = years * 12 + months;
+    const totalHours = totalDays * 24;
+    const totalMinutes = totalHours * 60;
+    
+    const nextBirthday = new Date(today.getFullYear(), birthDate.getMonth(), birthDate.getDate());
+    if (nextBirthday < today) {
+        nextBirthday.setFullYear(today.getFullYear() + 1);
+    }
+    const daysToNextBirthday = Math.ceil((nextBirthday - today) / (1000 * 60 * 60 * 24));
+    
+    output.innerHTML = `
+        <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 1.5rem; border-radius: 12px; color: white; text-align: center; margin-bottom: 1.5rem;">
+            <div style="font-size: 2.5rem; font-weight: 700; margin-bottom: 0.5rem;">${years}</div>
+            <div style="font-size: 1.125rem; opacity: 0.95;">Years Old</div>
+            <div style="margin-top: 0.75rem; font-size: 0.95rem; opacity: 0.9;">${years} years, ${months} months, and ${days} days</div>
+        </div>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 0.875rem;">
+            <div style="background: linear-gradient(135deg, #f8f9ff 0%, #ffffff 100%); padding: 1rem; border-radius: 10px; text-align: center; border: 1px solid #e5e7eb;">
+                <div style="font-size: 1.75rem; font-weight: 700; color: #667eea; margin-bottom: 0.25rem;">${totalMonths}</div>
+                <div style="font-size: 0.8rem; color: #6b7280; text-transform: uppercase; letter-spacing: 0.5px;">Months</div>
+            </div>
+            <div style="background: linear-gradient(135deg, #f8f9ff 0%, #ffffff 100%); padding: 1rem; border-radius: 10px; text-align: center; border: 1px solid #e5e7eb;">
+                <div style="font-size: 1.75rem; font-weight: 700; color: #667eea; margin-bottom: 0.25rem;">${totalWeeks.toLocaleString()}</div>
+                <div style="font-size: 0.8rem; color: #6b7280; text-transform: uppercase; letter-spacing: 0.5px;">Weeks</div>
+            </div>
+            <div style="background: linear-gradient(135deg, #f8f9ff 0%, #ffffff 100%); padding: 1rem; border-radius: 10px; text-align: center; border: 1px solid #e5e7eb;">
+                <div style="font-size: 1.75rem; font-weight: 700; color: #667eea; margin-bottom: 0.25rem;">${totalDays.toLocaleString()}</div>
+                <div style="font-size: 0.8rem; color: #6b7280; text-transform: uppercase; letter-spacing: 0.5px;">Days</div>
+            </div>
+            <div style="background: linear-gradient(135deg, #f8f9ff 0%, #ffffff 100%); padding: 1rem; border-radius: 10px; text-align: center; border: 1px solid #e5e7eb;">
+                <div style="font-size: 1.75rem; font-weight: 700; color: #667eea; margin-bottom: 0.25rem;">${totalHours.toLocaleString()}</div>
+                <div style="font-size: 0.8rem; color: #6b7280; text-transform: uppercase; letter-spacing: 0.5px;">Hours</div>
+            </div>
+            <div style="background: linear-gradient(135deg, #f8f9ff 0%, #ffffff 100%); padding: 1rem; border-radius: 10px; text-align: center; border: 1px solid #e5e7eb;">
+                <div style="font-size: 1.75rem; font-weight: 700; color: #667eea; margin-bottom: 0.25rem;">${totalMinutes.toLocaleString()}</div>
+                <div style="font-size: 0.8rem; color: #6b7280; text-transform: uppercase; letter-spacing: 0.5px;">Minutes</div>
+            </div>
+        </div>
+        <div style="margin-top: 1.5rem; padding: 1rem; background: linear-gradient(135deg, #fef3c7 0%, #fff7ed 100%); border-radius: 10px; text-align: center; border: 1px solid #fbbf24;">
+            <div style="font-size: 0.875rem; color: #92400e; font-weight: 500;">🎉 Next Birthday</div>
+            <div style="font-size: 1.125rem; color: #78350f; font-weight: 600; margin-top: 0.25rem;">In ${daysToNextBirthday} days</div>
+        </div>
+    `;
+    UniversalToast.success('Age calculated successfully!');
+}
+
+    </script>
+</body>
+</html>

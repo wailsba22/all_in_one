@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JWT Decoder - ConvertHub</title>
+    <link rel="stylesheet" href="../assets/css/universal-tool.css">
+</head>
+<body>
+    <!-- Universal Header -->
+    <header class="universal-header">
+        <div class="header-content">
+            <a href="../index.html" class="logo">
+                <div class="logo-icon">C</div>
+                <span>ConvertHub</span>
+            </a>
+            <nav class="header-nav">
+                <a href="../index.html" class="nav-link">Home</a>
+                <a href="../index.html#tools" class="nav-link">All Tools</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="tool-header">
+            <h1>JWT Decoder</h1>
+            <p>Decode JSON Web Tokens</p>
+        </div>
+
+        <div class="io-section">
+
+                <div class="content-box">
+                    <div class="content-box-header">
+                        <span class="content-box-title">JWT Token</span>
+                    </div>
+                    <textarea id="input" placeholder="Paste JWT token..."></textarea>
+                </div>
+
+                <div class="btn-group">
+                    <button class="btn btn-primary" onclick="decodeJWT()">Decode</button>
+                </div>
+
+                <div class="content-box">
+                    <div class="content-box-header">
+                        <span class="content-box-title">Results</span>
+                    </div>
+                    <div id="output"></div>
+                </div>
+        </div>
+    </main>
+
+    <script src="../assets/js/universal-tool.js"></script>
+    <script>
+
+function decodeJWT() {
+    const token = document.getElementById('input').value.trim();
+    try {
+        const parts = token.split('.');
+        if (parts.length !== 3) throw new Error('Invalid JWT');
+        
+        const header = JSON.parse(atob(parts[0]));
+        const payload = JSON.parse(atob(parts[1]));
+        
+        document.getElementById('output').innerHTML = `
+            <div style="display: flex; flex-direction: column; gap: 1rem;">
+                <div>
+                    <strong>Header:</strong>
+                    <pre style="background: var(--bg-gray); padding: 0.75rem; border-radius: 6px; overflow-x: auto;">${JSON.stringify(header, null, 2)}</pre>
+                </div>
+                <div>
+                    <strong>Payload:</strong>
+                    <pre style="background: var(--bg-gray); padding: 0.75rem; border-radius: 6px; overflow-x: auto;">${JSON.stringify(payload, null, 2)}</pre>
+                </div>
+            </div>
+        `;
+    } catch(e) {
+        UniversalToast.error('Invalid JWT token');
+    }
+}
+
+    </script>
+</body>
+</html>

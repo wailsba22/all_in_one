@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Flipper - ConvertHub</title>
+    <link rel="stylesheet" href="../assets/css/universal-tool.css">
+</head>
+<body>
+    <!-- Universal Header -->
+    <header class="universal-header">
+        <div class="header-content">
+            <a href="../index.html" class="logo">
+                <div class="logo-icon">C</div>
+                <span>ConvertHub</span>
+            </a>
+            <nav class="header-nav">
+                <a href="../index.html" class="nav-link">Home</a>
+                <a href="../index.html#tools" class="nav-link">All Tools</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="tool-header">
+            <h1>Image Flipper</h1>
+            <p>Flip images horizontally or vertically</p>
+        </div>
+
+        <div class="io-section">
+
+                <div class="content-box">
+                    <div class="content-box-header">
+                        <span class="content-box-title">Upload Image</span>
+                    </div>
+                    <div id="uploadZone"></div>
+                </div>
+
+                <div class="btn-group">
+                    <button class="btn btn-primary" onclick="flipImage("h")">Flip Horizontal</button>
+                    <button class="btn btn-secondary" onclick="flipImage("v")">Flip Vertical</button>
+                    <button class="btn btn-secondary" onclick="downloadFlipped()">Download</button>
+                </div>
+
+                <div class="content-box">
+                    <div class="content-box-header">
+                        <span class="content-box-title">Results</span>
+                    </div>
+                    <div id="output"></div>
+                </div>
+        </div>
+    </main>
+
+    <script src="../assets/js/universal-tool.js"></script>
+    <script>
+
+let flippedCanvas = null, originalImg = null;
+const zone = document.getElementById('uploadZone');
+zone.innerHTML = '<div class="file-upload-zone" id="dropZone" onclick="document.getElementById(\'fileInput\').click()"><div class="upload-icon">📁</div><div class="upload-text">Click to upload image</div></div><input type="file" id="fileInput" accept="image/*" style="display:none">';
+document.getElementById('fileInput').addEventListener('change', e => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = event => {
+        originalImg = new Image();
+        originalImg.src = event.target.result;
+        UniversalToast.success('Image loaded!');
+    };
+    reader.readAsDataURL(file);
+});
+
+function flipImage(dir) {
+    if (!originalImg) return UniversalToast.error('Upload image first');
+    flippedCanvas = document.createElement('canvas');
+    flippedCanvas.width = originalImg.width;
+    flippedCanvas.height = originalImg.height;
+    const ctx = flippedCanvas.getContext('2d');
+    ctx.save();
+    if (dir === 'h') {
+        ctx.scale(-1, 1);
+        ctx.drawImage(originalImg, -originalImg.width, 0);
+    } else {
+        ctx.scale(1, -1);
+        ctx.drawImage(originalImg, 0, -originalImg.height);
+    }
+    ctx.restore();
+    document.getElementById('output').innerHTML = '<div style="text-align:center"><img src="' + flippedCanvas.toDataURL() + '" style="max-width:100%;border-radius:8px"></div>';
+    UniversalToast.success('Image flipped!');
+}
+
+function downloadFlipped() {
+    if (!flippedCanvas) return UniversalToast.error('Flip image first');
+    flippedCanvas.toBlob(blob => {
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = 'flipped.png';
+        a.click();
+    });
+}
+
+    </script>
+</body>
+</html>

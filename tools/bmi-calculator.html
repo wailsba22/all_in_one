@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BMI Calculator - ConvertHub</title>
+    <link rel="stylesheet" href="../assets/css/universal-tool.css">
+</head>
+<body>
+    <!-- Universal Header -->
+    <header class="universal-header">
+        <div class="header-content">
+            <a href="../index.html" class="logo">
+                <div class="logo-icon">C</div>
+                <span>ConvertHub</span>
+            </a>
+            <nav class="header-nav">
+                <a href="../index.html" class="nav-link">Home</a>
+                <a href="../index.html#tools" class="nav-link">All Tools</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="tool-header">
+            <h1>BMI Calculator</h1>
+            <p>Calculate your Body Mass Index and health category</p>
+        </div>
+
+        <div class="io-section">
+
+                <div class="content-box">
+                    <div class="io-section">
+                        <div class="input-group">
+                            <label class="input-label">Weight (kg)</label>
+                            <input type="number" id="weight" 
+                                placeholder="70"
+                                
+                                
+                                >
+                        </div>
+                        <div class="input-group">
+                            <label class="input-label">Height (cm)</label>
+                            <input type="number" id="height" 
+                                placeholder="170"
+                                
+                                
+                                >
+                        </div>
+                    </div>
+                </div>
+
+                <div class="btn-group">
+                    <button class="btn btn-primary" onclick="calculateBMI()">Calculate BMI</button>
+                </div>
+
+                <div class="content-box">
+                    <div class="content-box-header">
+                        <span class="content-box-title">Results</span>
+                    </div>
+                    <div id="output"></div>
+                </div>
+        </div>
+    </main>
+
+    <script src="../assets/js/universal-tool.js"></script>
+    <script>
+
+function calculateBMI() {
+    const weight = parseFloat(document.getElementById('weight').value);
+    const height = parseFloat(document.getElementById('height').value) / 100;
+    const output = document.getElementById('output');
+    
+    if (!weight || !height) {
+        UniversalToast.error('Please enter both weight and height');
+        return;
+    }
+    
+    const bmi = (weight / (height * height)).toFixed(1);
+    let category = '';
+    let color = '';
+    
+    if (bmi < 18.5) {
+        category = 'Underweight';
+        color = '#3b82f6';
+    } else if (bmi < 25) {
+        category = 'Normal weight';
+        color = '#10b981';
+    } else if (bmi < 30) {
+        category = 'Overweight';
+        color = '#f59e0b';
+    } else {
+        category = 'Obese';
+        color = '#ef4444';
+    }
+    
+    output.innerHTML = `
+        <div style="text-align: center;">
+            <div style="font-size: 4rem; font-weight: 800; color: ${color};">${bmi}</div>
+            <div style="font-size: 1.5rem; font-weight: 600; color: var(--text-secondary); margin-top: 0.5rem;">${category}</div>
+            <div style="margin-top: 2rem; padding: 1rem; background: var(--bg-gray); border-radius: 8px;">
+                <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                    <span>Underweight</span><span>&lt; 18.5</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                    <span>Normal</span><span>18.5 - 24.9</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                    <span>Overweight</span><span>25 - 29.9</span>
+                </div>
+                <div style="display: flex; justify-content: space-between;">
+                    <span>Obese</span><span>≥ 30</span>
+                </div>
+            </div>
+        </div>
+    `;
+}
+
+    </script>
+</body>
+</html>

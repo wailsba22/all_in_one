@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS Gradient Generator - ConvertHub</title>
+    <link rel="stylesheet" href="../assets/css/universal-tool.css">
+</head>
+<body>
+    <!-- Universal Header -->
+    <header class="universal-header">
+        <div class="header-content">
+            <a href="../index.html" class="logo">
+                <div class="logo-icon">C</div>
+                <span>ConvertHub</span>
+            </a>
+            <nav class="header-nav">
+                <a href="../index.html" class="nav-link">Home</a>
+                <a href="../index.html#tools" class="nav-link">All Tools</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="tool-header">
+            <h1>CSS Gradient Generator</h1>
+            <p>Create CSS gradients visually</p>
+        </div>
+
+        <div class="io-section">
+
+                <div class="content-box">
+                    <div class="io-section">
+                        <div class="input-group">
+                            <label class="input-label">Color 1</label>
+                            <input type="color" id="color1" 
+                                
+                                value="#667eea"
+                                
+                                >
+                        </div>
+                        <div class="input-group">
+                            <label class="input-label">Color 2</label>
+                            <input type="color" id="color2" 
+                                
+                                value="#764ba2"
+                                
+                                >
+                        </div>
+                    </div>
+                </div>
+
+                <div class="btn-group">
+                    <button class="btn btn-primary" onclick="generateGradient()">Generate</button>
+                </div>
+
+                <div class="content-box">
+                    <div class="content-box-header">
+                        <span class="content-box-title">Results</span>
+                    </div>
+                    <div id="output"></div>
+                </div>
+        </div>
+    </main>
+
+    <script src="../assets/js/universal-tool.js"></script>
+    <script>
+
+function generateGradient() {
+    const c1 = document.getElementById('color1').value;
+    const c2 = document.getElementById('color2').value;
+    const css = `linear-gradient(135deg, ${c1}, ${c2})`;
+    
+    document.getElementById('output').innerHTML = `
+        <div style="background: ${css}; height: 100px; border-radius: 8px; margin-bottom: 1rem;"></div>
+        <div style="font-family: monospace; padding: 0.75rem; background: var(--bg-gray); border-radius: 6px;">
+            background: ${css};
+        </div>
+    `;
+}
+generateGradient();
+document.getElementById('color1').addEventListener('input', generateGradient);
+document.getElementById('color2').addEventListener('input', generateGradient);
+
+    </script>
+</body>
+</html>
